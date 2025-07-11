@@ -1,14 +1,16 @@
 "use client";
-import React, { useEffect, ReactNode } from "react";
+import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
 import { useAppDispatch } from "@/store/hook";
 import { loginSuccess } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
+import React, { memo, ReactNode, useEffect } from "react";
 
-interface Props {
+interface IProps {
   children: ReactNode;
 }
 
-const AuthInitializer: React.FC<Props> = ({ children }) => {
+const MainLayout: React.FC<IProps> = ({ children }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -23,7 +25,13 @@ const AuthInitializer: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
 };
 
-export default AuthInitializer;
+export default memo(MainLayout);

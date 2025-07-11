@@ -1,6 +1,6 @@
 "use client";
 import React, { memo } from "react";
-import styles from "./registerPage.module.css";
+import styles from "../login-page/loginPage.module.css";
 import { Button, Paper, PasswordInput, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { yupResolver } from "mantine-form-yup-resolver";
@@ -43,45 +43,59 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <Paper radius="md" p="lg" withBorder className={styles.container}>
-      <Text ta={"center"} mb={20} size="24px" fw={500}>
-        Welcome
-      </Text>
-
-      <form className={styles.formContainer} onSubmit={form.onSubmit(onSubmit)}>
-        <TextInput
-          label="Name"
-          placeholder="Your name"
-          radius="md"
-          {...form.getInputProps("name")}
-        />
-
-        <TextInput
-          required
-          label="Email"
-          placeholder="hello@mantine.dev"
-          radius="md"
-          {...form.getInputProps("email")}
-        />
-
-        <PasswordInput
-          required
-          label="Password"
-          placeholder="Your password"
-          radius="md"
-          {...form.getInputProps("password")}
-        />
-
-        <Text mb={20}>
-          {`Already have an account?`}
-          <Link href="/login">Login</Link>
+    <div className={styles.container}>
+      <Paper radius="md" p="lg" withBorder className={styles.innerContainer}>
+        <Text ta={"center"} mb={20} size="24px" fw={500}>
+          Welcome
         </Text>
 
-        <Button w="100%" type="submit" radius="md">
-          register
-        </Button>
-      </form>
-    </Paper>
+        <form
+          className={styles.formContainer}
+          onSubmit={form.onSubmit(onSubmit)}
+        >
+          <TextInput
+            classNames={{
+              label: styles.label,
+            }}
+            label="Name"
+            placeholder="Your name"
+            radius="sm"
+            {...form.getInputProps("name")}
+          />
+
+          <TextInput
+            classNames={{
+              label: styles.label,
+            }}
+            label="Email"
+            placeholder="hello@mantine.dev"
+            radius="sm"
+            {...form.getInputProps("email")}
+          />
+
+          <PasswordInput
+            classNames={{
+              label: styles.label,
+            }}
+            label="Password"
+            placeholder="Your password"
+            radius="sm"
+            {...form.getInputProps("password")}
+          />
+
+          <Text mb={20}>
+            {`Already have an account? `}
+            <Link className={styles.link} href="/login">
+              Login
+            </Link>
+          </Text>
+
+          <Button w="100%" type="submit" radius="sm">
+            register
+          </Button>
+        </form>
+      </Paper>
+    </div>
   );
 };
 

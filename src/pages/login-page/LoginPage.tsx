@@ -60,45 +60,53 @@ const LoginPage: React.FC = () => {
       })
     );
 
-    router.push("/companies");
+    router.push("/dashboard");
   };
 
   return (
-    <Paper radius="md" p="lg" withBorder className={styles.container}>
-      <Text ta={"center"} mb={20} size="24px" fw={500}>
-        Welcome
-      </Text>
-
-      <form
-        className={styles.formContainer}
-        onSubmit={form.onSubmit(handleSubmit)}
-      >
-        <TextInput
-          required
-          label="Email"
-          placeholder="hello@mantine.dev"
-          radius="md"
-          {...form.getInputProps("email")}
-        />
-
-        <PasswordInput
-          required
-          label="Password"
-          placeholder="Your password"
-          radius="md"
-          {...form.getInputProps("password")}
-        />
-
-        <Text mb={20}>
-          {`Don't have an account? `}
-          <Link href="/register">Register</Link>
+    <div className={styles.container}>
+      <Paper radius="md" p="lg" withBorder className={styles.innerContainer}>
+        <Text ta={"center"} mb={20} size="24px" fw={500}>
+          Welcome
         </Text>
 
-        <Button w="100%" type="submit" radius="md">
-          login
-        </Button>
-      </form>
-    </Paper>
+        <form
+          className={styles.formContainer}
+          onSubmit={form.onSubmit(handleSubmit)}
+        >
+          <TextInput
+            classNames={{
+              label: styles.label,
+            }}
+            label="Email"
+            placeholder="hello@mantine.dev"
+            radius="sm"
+            {...form.getInputProps("email")}
+          />
+
+          <PasswordInput
+            classNames={{
+              label: styles.label,
+            }}
+            label="Password"
+            placeholder="Your password"
+            radius="sm"
+            {...form.getInputProps("password")}
+          />
+
+          <Text mb={20}>
+            {`Don't have an account? `}
+            <Link className={styles.link} href="/register">
+              Register
+            </Link>
+          </Text>
+
+          <Button w="100%" type="submit" radius="sm">
+            login
+          </Button>
+        </form>
+      </Paper>
+    </div>
   );
 };
 

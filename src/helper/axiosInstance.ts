@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api/v1",
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`,
 });
 
 // ✅ Interceptor to attach token automatically
