@@ -1,5 +1,7 @@
+import CompanySpecificPage from "@/pages/company-specific-page/CompanySpecificPage";
+
 const page = () => {
-  return <div>individual company page</div>;
+  return <CompanySpecificPage />;
 };
 
 export default page;

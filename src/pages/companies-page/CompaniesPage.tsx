@@ -13,11 +13,19 @@ import {
   Anchor,
   Stack,
   Divider,
+  Button,
+  Flex,
 } from "@mantine/core";
-import styles from "./companyPage.module.css";
+import styles from "./companiesPage.module.css";
 import { IconUser } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import companyIcon from "../../assets/icons/building.png";
+import Image from "next/image";
+import { openCompanyModal } from "@/modals/openCompanyModal";
 
 const CompanyPage: React.FC = () => {
+  const router = useRouter();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["getAllCompanies"],
     queryFn: getAllCompanies,
@@ -41,10 +49,19 @@ const CompanyPage: React.FC = () => {
 
   return (
     <Box p="40px">
-      <Text fz="32px" fw={700} ta="center" mb="40px">
-        Companies
-      </Text>
-      <Box className={styles.companyContainer}>
+      <Flex align="center" pos={"relative"}>
+        <Text w="100%" fz="32px" fw={700} ta="center">
+          Companies
+        </Text>
+        <Button
+          pos="absolute"
+          right="0"
+          onClick={() => openCompanyModal("create")}
+        >
+          Create
+        </Button>
+      </Flex>
+      <Box className={styles.companyContainer} mt="40px">
         {companies.map((company: any) => (
           <Card
             key={company._id}
@@ -53,8 +70,20 @@ const CompanyPage: React.FC = () => {
             radius="md"
             withBorder
             className={styles.card}
+            onClick={() => {
+              router.push(`companies/${company._id}`);
+            }}
           >
             <Stack gap="xs">
+              <Box className={styles.companyIconContainer}>
+                <Image
+                  className={styles.companyIcon}
+                  src={companyIcon}
+                  alt="company-icon"
+                  width={70}
+                  height={70}
+                />
+              </Box>
               <Text fw={600} fz="lg">
                 {company.name}
               </Text>
@@ -108,9 +137,9 @@ const CompanyPage: React.FC = () => {
               <Text size="xs" c="dimmed">
                 Created At: {new Date(company.createdAt).toLocaleString()}
               </Text>
-              <Text size="xs" c="dimmed">
+              {/* <Text size="xs" c="dimmed">
                 Updated At: {new Date(company.updatedAt).toLocaleString()}
-              </Text>
+              </Text> */}
             </Stack>
           </Card>
         ))}

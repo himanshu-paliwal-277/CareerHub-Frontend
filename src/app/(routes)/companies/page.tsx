@@ -1,7 +1,7 @@
-import CompanyPage from "@/pages/company-page/CompanyPage";
+import CompaniesPage from "@/pages/companies-page/CompaniesPage";
 
 const page = () => {
-  return <CompanyPage />;
+  return <CompaniesPage />;
 };
 
 export default page;
