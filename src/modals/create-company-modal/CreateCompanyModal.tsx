@@ -1,10 +1,14 @@
 import React from "react";
 import { notifications } from "@mantine/notifications";
 import { createCompany } from "@/services/createCompany";
-import CompanyForm from "@/components/company-form/CompanyForm";
+import CompanyForm, { CompanyInput } from "@/components/company-form/CompanyForm";
+import { useQueryClient } from "@tanstack/react-query";
+import { modals } from "@mantine/modals";
 
 const CreateCompanyModal = () => {
-  const handleCreate = async (values: any) => {
+  const queryClient = useQueryClient();
+
+  const handleCreate = async (values: CompanyInput) => {
     const dataToSend = {
       ...values,
       tags: values.tags?.split(",").map((tag: string) => tag.trim()), // convert to array
@@ -20,6 +24,9 @@ const CreateCompanyModal = () => {
       });
       return;
     }
+
+    queryClient.invalidateQueries({ queryKey: ["getAllCompanies"] });
+    modals.closeAll();
 
     notifications.show({
       title: "Success",

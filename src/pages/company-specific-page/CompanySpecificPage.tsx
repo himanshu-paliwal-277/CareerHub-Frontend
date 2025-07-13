@@ -16,7 +16,7 @@ import {
   Divider,
   Button,
 } from "@mantine/core";
-import { IconUser } from "@tabler/icons-react";
+// import { IconPencil, IconUser } from "@tabler/icons-react";
 import { useParams } from "next/navigation";
 import { openCompanyModal } from "@/modals/openCompanyModal";
 
@@ -48,14 +48,27 @@ const CompanySpecificPage: React.FC = () => {
 
   return (
     <Box p="40px">
-      <Button onClick={() => openCompanyModal("edit")}>Edit</Button>
       <Card
         shadow="sm"
         padding="lg"
         radius="md"
         withBorder
         className={styles.card}
+        pos={"relative"}
       >
+        <Button
+          pos="absolute"
+          top={20}
+          right={20}
+          w={30}
+          h={30}
+          p={0}
+          bg={"transparent"}
+          onClick={() => openCompanyModal("edit")}
+        >
+          {/* <IconPencil size={20} color="blue" /> */}
+          edit
+        </Button>
         <Stack gap="xs">
           <Text fz="28px" fw={700}>
             {company.name}
@@ -67,7 +80,7 @@ const CompanySpecificPage: React.FC = () => {
 
           {company.contactPerson && (
             <Group gap="xs">
-              <IconUser size={16} />
+              {/* <IconUser size={16} /> */}
               <Text size="sm">Contact Person: {company.contactPerson}</Text>
             </Group>
           )}

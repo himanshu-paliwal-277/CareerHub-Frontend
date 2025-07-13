@@ -25,3 +25,45 @@ export interface RegisterResponseData {
 }
 
 export type RegisterApiResponse = ApiResponse<RegisterResponseData>;
+
+export interface Application {
+  _id: string;
+  company: {
+    _id: string;
+    name: string;
+  };
+  user: string;
+  status: string;
+  applicationDate: string; // ISO date string
+  notes: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+}
+
+export interface Company {
+  _id: string;
+  name: string;
+  website: string;
+  linkedin: string;
+  location: string;
+  contactPerson: string;
+  tags: string[];
+  createdBy: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+}
+
+export type CompanyDataInput = {
+  name: string;
+  location: string;
+  contactPerson?: string;
+  tags?: string[];
+  website?: string;
+  linkedin?: string;
+};

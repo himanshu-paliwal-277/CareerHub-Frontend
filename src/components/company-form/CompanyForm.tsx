@@ -1,20 +1,22 @@
 "use client";
 import React, { memo } from "react";
-import { TextInput, Button, Paper, Stack, Title } from "@mantine/core";
+import { TextInput, Button, Stack, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { yupResolver } from "mantine-form-yup-resolver";
 import { companyFormValidationSchema } from "@/validation/companyFormValidationSchema";
 
+export type CompanyInput = {
+  name: string;
+  location: string;
+  contactPerson?: string;
+  tags?: string;
+  website?: string;
+  linkedin?: string;
+};
+
 interface CompanyFormProps {
-  initialValues?: {
-    name: string;
-    location: string;
-    contactPerson?: string;
-    tags?: string;
-    website?: string;
-    linkedin?: string;
-  };
-  onSubmit: (values: any) => void;
+  initialValues?: CompanyInput;
+  onSubmit: (values: CompanyInput) => void;
   submitButtonLabel?: string;
 }
 
@@ -37,10 +39,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
   });
 
   return (
-    <Paper radius="md" p="lg" withBorder maw={600} mx="auto">
-      <Title order={3} mb="md" ta="center">
-        {submitButtonLabel === "Update" ? "Edit Company" : "Create Company"}
-      </Title>
+    <Box>
       <form onSubmit={form.onSubmit(onSubmit)}>
         <Stack>
           <TextInput
@@ -79,12 +78,12 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
             radius="sm"
             {...form.getInputProps("linkedin")}
           />
-          <Button type="submit" radius="sm">
+          <Button type="submit" radius="sm" w="100px">
             {submitButtonLabel}
           </Button>
         </Stack>
       </form>
-    </Paper>
+    </Box>
   );
 };
 

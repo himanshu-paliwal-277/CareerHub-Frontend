@@ -1,11 +1,12 @@
 "use client";
+
 import React, { memo, ReactNode, useEffect, useState } from "react";
 import { Provider } from "react-redux";
-import { MantineProvider } from "@mantine/core";
 import { store } from "@/store";
-import { Notifications } from "@mantine/notifications";
+// import { MantineProvider } from "@mantine/core";
+// import { Notifications } from "@mantine/notifications";
+// import { ModalsProvider } from "@mantine/modals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ModalsProvider } from "@mantine/modals";
 import { usePathname, useRouter } from "next/navigation";
 
 interface IProps {
@@ -26,10 +27,13 @@ const Providers: React.FC<IProps> = ({ children }) => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <MantineProvider>
-          <ModalsProvider>{children}</ModalsProvider>
-          <Notifications />
-        </MantineProvider>
+        {/* <MantineProvider>
+          <ModalsProvider>
+            {children}
+            <Notifications />
+            </ModalsProvider>
+            </MantineProvider> */}
+        {children}
       </QueryClientProvider>
     </Provider>
   );

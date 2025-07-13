@@ -6,9 +6,15 @@ type modalType = "edit" | "create";
 
 export const openCompanyModal = (type: modalType) => {
   return modals.open({
-    title: `${type} company modal`,
+    id: "companyModal",
+    title: `${type.charAt(0).toUpperCase() + type.slice(1)} Company Modal`,
     centered: true,
-    size: "xl",
+    size: "60%",
+    styles: {
+      body: { padding: "0px 20px 20px 20px" },
+      header: { padding: 20 },
+      title: { fontSize: 20, fontWeight: 600 },
+    },
     children: type === "edit" ? <EditCompanyModal /> : <CreateCompanyModal />,
   });
 };

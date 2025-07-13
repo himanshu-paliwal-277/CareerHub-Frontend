@@ -1,8 +1,12 @@
 import { axiosInstance } from "@/helper/axiosInstance";
+import { CompanyDataInput } from "@/types/apResponse";
 
-export const updateCompany = async (companyId: string, companyData: any) => {
+export const updateCompany = async (
+  companyId: string,
+  companyData: CompanyDataInput
+) => {
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.put(
       `/company/${companyId}`,
       companyData
     );

@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCompanies } from "@/services/getAllCompanies";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import {
   Box,
   Center,
@@ -15,20 +15,23 @@ import {
   Divider,
   Button,
   Flex,
+  Pagination,
 } from "@mantine/core";
 import styles from "./companiesPage.module.css";
-import { IconUser } from "@tabler/icons-react";
+// import { IconUser } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import companyIcon from "../../assets/icons/building.png";
 import Image from "next/image";
 import { openCompanyModal } from "@/modals/openCompanyModal";
+import { Company } from "@/types/apResponse";
 
-const CompanyPage: React.FC = () => {
+const CompaniesPage: React.FC = () => {
   const router = useRouter();
+  const [page, setPage] = useState(1);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["getAllCompanies"],
-    queryFn: getAllCompanies,
+    queryKey: ["getAllCompanies", page],
+    queryFn: () => getAllCompanies(page, 4),
   });
 
   if (isLoading)
@@ -62,7 +65,7 @@ const CompanyPage: React.FC = () => {
         </Button>
       </Flex>
       <Box className={styles.companyContainer} mt="40px">
-        {companies.map((company: any) => (
+        {companies.map((company: Company) => (
           <Card
             key={company._id}
             shadow="sm"
@@ -95,7 +98,7 @@ const CompanyPage: React.FC = () => {
               {company.contactPerson && (
                 <Group gap="xs">
                   Contact Person:
-                  <IconUser size={16} />
+                  {/* <IconUser size={16} /> */}
                   <Text size="sm">{company.contactPerson}</Text>
                 </Group>
               )}
@@ -144,8 +147,16 @@ const CompanyPage: React.FC = () => {
           </Card>
         ))}
       </Box>
+      <Flex justify="flex-end" mt={40}>
+        <Pagination
+          total={data?.data?.totalPage || 1}
+          value={page}
+          onChange={setPage}
+          mt="sm"
+        />
+      </Flex>
     </Box>
   );
 };
 
-export default memo(CompanyPage);
+export default memo(CompaniesPage);

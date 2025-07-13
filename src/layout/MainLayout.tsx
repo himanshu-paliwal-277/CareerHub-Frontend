@@ -23,6 +23,7 @@ const MainLayout: React.FC<IProps> = ({ children }) => {
     } else {
       router.push("/login");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

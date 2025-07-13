@@ -1,8 +1,11 @@
 import { axiosInstance } from "@/helper/axiosInstance";
 
-export const getAllCompanies = async (page: number, limit?: number) => {
+export const getAllApplicationByUserId = async (
+  page: number,
+  limit?: number
+) => {
   try {
-    const response = await axiosInstance.get("/company/", {
+    const response = await axiosInstance.get("/application/", {
       params: {
         page,
         limit,

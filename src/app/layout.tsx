@@ -3,6 +3,9 @@ import "@mantine/core/styles.css";
 import "./globals.css";
 import "@mantine/notifications/styles.css";
 import Providers from "@/components/providers/Providers";
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata: Metadata = {
   title: "CareerHub",
@@ -17,7 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <MantineProvider>
+            <ModalsProvider>
+              {children}
+              <Notifications />
+            </ModalsProvider>
+          </MantineProvider>
+        </Providers>
       </body>
     </html>
   );
