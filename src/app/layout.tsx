@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
 import Providers from "@/components/providers/Providers";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";

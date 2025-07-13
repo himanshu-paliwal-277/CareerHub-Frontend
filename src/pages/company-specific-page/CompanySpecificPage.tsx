@@ -18,7 +18,10 @@ import {
 } from "@mantine/core";
 // import { IconPencil, IconUser } from "@tabler/icons-react";
 import { useParams } from "next/navigation";
-import { openCompanyModal } from "@/modals/openCompanyModal";
+import { openCompanyModal } from "@/modals/companyModal/openCompanyModal";
+import { openApplicationModal } from "@/modals/applicationModal/openApplicationModal";
+import { getUserApplicationByCompany } from "@/services/getUserApplicationByCompany";
+import { dateFormatter } from "@/helper/dateFormatter";
 
 const CompanySpecificPage: React.FC = () => {
   const params = useParams();
@@ -27,6 +30,12 @@ const CompanySpecificPage: React.FC = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["getCompanyById", id], // include id to avoid caching issues
     queryFn: () => getCompanyById(id as string),
+    enabled: !!id, // avoid fetching when id is undefined
+  });
+
+  const { data: applicationData } = useQuery({
+    queryKey: ["getUserApplicationByCompany", id], // include id to avoid caching issues
+    queryFn: () => getUserApplicationByCompany(id as string),
     enabled: !!id, // avoid fetching when id is undefined
   });
 
@@ -45,9 +54,11 @@ const CompanySpecificPage: React.FC = () => {
     );
 
   const company = data?.data || {};
+  const application = applicationData?.data || false;
 
   return (
     <Box p="40px">
+      {/* company card */}
       <Card
         shadow="sm"
         padding="lg"
@@ -55,6 +66,7 @@ const CompanySpecificPage: React.FC = () => {
         withBorder
         className={styles.card}
         pos={"relative"}
+        mb={40}
       >
         <Button
           pos="absolute"
@@ -63,7 +75,7 @@ const CompanySpecificPage: React.FC = () => {
           w={30}
           h={30}
           p={0}
-          bg={"transparent"}
+          // bg={"transparent"}
           onClick={() => openCompanyModal("edit")}
         >
           {/* <IconPencil size={20} color="blue" /> */}
@@ -134,6 +146,60 @@ const CompanySpecificPage: React.FC = () => {
           </Text>
         </Stack>
       </Card>
+      {/* application card */}
+      {application ? (
+        <Card
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          className={styles.card}
+          pos={"relative"}
+        >
+          <Button
+            pos="absolute"
+            top={20}
+            right={20}
+            w={30}
+            h={30}
+            p={0}
+            // bg={"transparent"}
+            onClick={() => openApplicationModal("edit")}
+          >
+            {/* <IconPencil size={20} color="blue" /> */}
+            edit
+          </Button>
+          <Stack gap="xs">
+            <Text fz="28px" fw={700}>
+              Application
+            </Text>
+
+            <Text c="dimmed" size="sm">
+              status: {application?.status}
+            </Text>
+
+            <Text c="dimmed" size="sm">
+              application date: {dateFormatter(application?.applicationDate)}
+            </Text>
+
+            <Text c="dimmed" size="sm">
+              notes: {application?.notes}
+            </Text>
+
+            <Divider my="sm" />
+            <Text size="xs" c="dimmed">
+              Updated At: {new Date(application?.updatedAt).toLocaleString()}
+            </Text>
+          </Stack>
+        </Card>
+      ) : (
+        <div>
+          <Text>no application</Text>
+          <Button onClick={() => openApplicationModal("create", id as string)}>
+            create
+          </Button>
+        </div>
+      )}
     </Box>
   );
 };

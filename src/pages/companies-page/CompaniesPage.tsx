@@ -22,8 +22,8 @@ import styles from "./companiesPage.module.css";
 import { useRouter } from "next/navigation";
 import companyIcon from "../../assets/icons/building.png";
 import Image from "next/image";
-import { openCompanyModal } from "@/modals/openCompanyModal";
 import { Company } from "@/types/apResponse";
+import { openCompanyModal } from "@/modals/companyModal/openCompanyModal";
 
 const CompaniesPage: React.FC = () => {
   const router = useRouter();

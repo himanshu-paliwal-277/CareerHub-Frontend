@@ -59,11 +59,27 @@ export interface Company {
   __v: number;
 }
 
-export type CompanyDataInput = {
+export interface CompanyDataInput {
   name: string;
   location: string;
   contactPerson?: string;
   tags?: string[];
   website?: string;
   linkedin?: string;
-};
+}
+
+export interface Application {
+  _id: string;
+  company: {
+    _id: string;
+    name: string;
+  };
+  user: string;
+  status: string;
+  applicationDate: string; // ISO date string
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
