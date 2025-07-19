@@ -1,4 +1,4 @@
-import ApplicationsPage from "@/pages/applications-page/ApplicationsPage";
+import ApplicationsPage from "@/components/applications-page/ApplicationsPage";
 
 const page = () => {
   return <ApplicationsPage />;

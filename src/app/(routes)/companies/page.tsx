@@ -1,4 +1,4 @@
-import CompaniesPage from "@/pages/companies-page/CompaniesPage";
+import CompaniesPage from "@/components/companies-page/CompaniesPage";
 
 const page = () => {
   return <CompaniesPage />;
