@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { memo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCompanyById } from "@/services/getCompanyById";
 import { useParams } from "next/navigation";
@@ -11,7 +11,7 @@ import CompanyForm, {
 } from "@/components/company-form/CompanyForm";
 import { modals } from "@mantine/modals";
 
-const EditCompanyModal = () => {
+const EditCompanyModal: React.FC = () => {
   const params = useParams();
   const id = params?.id as string;
   const queryClient = useQueryClient();
@@ -71,4 +71,4 @@ const EditCompanyModal = () => {
   );
 };
 
-export default EditCompanyModal;
+export default memo(EditCompanyModal);

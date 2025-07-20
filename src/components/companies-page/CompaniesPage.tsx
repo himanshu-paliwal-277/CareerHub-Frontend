@@ -5,11 +5,11 @@ import React, { memo, useState } from "react";
 import {
   Box,
   Center,
-  Loader,
   Text,
   Button,
   Flex,
   Pagination,
+  Skeleton,
 } from "@mantine/core";
 import styles from "./companiesPage.module.css";
 import { Company } from "@/types/apResponse";
@@ -30,8 +30,9 @@ const CompaniesPage: React.FC = () => {
 
   const handleApply = () => {
     const tagsString = tags.join(",");
+    setPage(1);
     getAllCompanies(
-      page,
+      1,
       8,
       debouncedSearch,
       location,
@@ -104,7 +105,19 @@ const CompaniesPage: React.FC = () => {
         />
 
         <Box w={"100%"}>
-          {companies.length > 0 && !isLoading ? (
+          {isLoading && (
+            <Box className={styles.companyContainer}>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Skeleton
+                  key={index ** 2}
+                  width={"100%"}
+                  height={400}
+                  radius={8}
+                />
+              ))}
+            </Box>
+          )}
+          {!isLoading && companies.length > 0 ? (
             <Box className={styles.companyContainer}>
               {companies.map((company: Company) => (
                 <CompanyCard
@@ -115,18 +128,9 @@ const CompaniesPage: React.FC = () => {
               ))}
             </Box>
           ) : (
-            <>
-              {isLoading && (
-                <Center h="70vh" w="100%">
-                  <Loader type="dots" color="blue" />
-                </Center>
-              )}
-              {!isLoading && (
-                <Center h="70vh" w="100%">
-                  <Text c="dimmed">No companies found</Text>
-                </Center>
-              )}
-            </>
+            <Center h="70vh" w="100%">
+              <Text c="dimmed">No companies found</Text>
+            </Center>
           )}
           <Flex justify="flex-end" mt={40}>
             {data?.data?.totalPage > 1 && (

@@ -4,8 +4,11 @@ import CreateApplicationModal from "./create-application-modal/CreateApplication
 
 type modalType = "edit" | "create";
 
-export const openApplicationModal = (type: modalType, companyId?: string) => {
-  console.log("Opening application modal of type:", type, "for companyId:", companyId);
+export const openApplicationModal = (
+  type: modalType,
+  companyId?: string,
+  id?: string
+) => {
   return modals.open({
     id: "applicationModal",
     title: `${type.charAt(0).toUpperCase() + type.slice(1)} Application Modal`,
@@ -18,7 +21,7 @@ export const openApplicationModal = (type: modalType, companyId?: string) => {
     },
     children:
       type === "edit" ? (
-        <EditApplicationModal />
+        <EditApplicationModal id={id || ""} />
       ) : (
         <CreateApplicationModal companyId={companyId || ""} />
       ),

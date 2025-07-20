@@ -1,11 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 import { notifications } from "@mantine/notifications";
 import { createCompany } from "@/services/createCompany";
-import CompanyForm, { CompanyInput } from "@/components/company-form/CompanyForm";
+import CompanyForm, {
+  CompanyInput,
+} from "@/components/company-form/CompanyForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { modals } from "@mantine/modals";
 
-const CreateCompanyModal = () => {
+const CreateCompanyModal: React.FC = () => {
   const queryClient = useQueryClient();
 
   const handleCreate = async (values: CompanyInput) => {
@@ -38,4 +40,4 @@ const CreateCompanyModal = () => {
   return <CompanyForm onSubmit={handleCreate} submitButtonLabel="Create" />;
 };
 
-export default CreateCompanyModal;
+export default memo(CreateCompanyModal);

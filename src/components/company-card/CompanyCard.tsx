@@ -57,7 +57,6 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
         {company.contactPerson && (
           <Group gap="xs">
             Contact Person:
-            {/* <IconUser size={16} /> */}
             <Text size="sm">{company.contactPerson}</Text>
           </Group>
         )}
@@ -76,6 +75,7 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
               href={company.website}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               Website
             </Anchor>
@@ -85,6 +85,7 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
               href={company.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               LinkedIn
             </Anchor>

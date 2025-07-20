@@ -1,30 +1,31 @@
 "use client";
-import React from "react";
+import React, { memo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 import { Center, Loader } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { getUserApplicationByCompany } from "@/services/getUserApplicationByCompany";
 import { updateApplication } from "@/services/updateApplication";
 import ApplicationForm, {
   ApplicationInput,
 } from "@/components/application-form/ApplicationForm";
+import { getApplicationById } from "@/services/getApplicationById";
 
-const EditApplicationModal = () => {
-  const params = useParams();
-  const id = params?.id as string;
+interface IProps {
+  id: string;
+}
+
+const EditApplicationModal: React.FC<IProps> = ({ id }) => {
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getUserApplicationByCompany", id],
-    queryFn: () => getUserApplicationByCompany(id),
+    queryKey: ["getApplicationById", id],
+    queryFn: () => getApplicationById(id),
     enabled: !!id,
   });
 
   if (isLoading) {
     return (
-      <Center h="70vh" w="100%">
+      <Center h="40vh" w="100%">
         <Loader type="dots" />
       </Center>
     );
@@ -44,7 +45,9 @@ const EditApplicationModal = () => {
       return;
     }
 
-    queryClient.invalidateQueries({ queryKey: ["getUserApplicationByCompany"] });
+    queryClient.invalidateQueries({
+      queryKey: ["getUserApplicationByCompany"],
+    });
     modals.closeAll();
 
     notifications.show({
@@ -67,4 +70,4 @@ const EditApplicationModal = () => {
   );
 };
 
-export default EditApplicationModal;
+export default memo(EditApplicationModal);

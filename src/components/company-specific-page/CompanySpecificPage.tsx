@@ -15,13 +15,14 @@ import {
   Stack,
   Divider,
   Button,
+  Flex,
 } from "@mantine/core";
-// import { IconPencil, IconUser } from "@tabler/icons-react";
 import { useParams } from "next/navigation";
 import { openCompanyModal } from "@/modals/companyModal/openCompanyModal";
 import { openApplicationModal } from "@/modals/applicationModal/openApplicationModal";
 import { getUserApplicationByCompany } from "@/services/getUserApplicationByCompany";
 import { dateFormatter } from "@/helper/dateFormatter";
+import { MdEdit } from "react-icons/md";
 
 const CompanySpecificPage: React.FC = () => {
   const params = useParams();
@@ -75,11 +76,10 @@ const CompanySpecificPage: React.FC = () => {
           w={30}
           h={30}
           p={0}
-          // bg={"transparent"}
+          bg={"transparent"}
           onClick={() => openCompanyModal("edit")}
         >
-          {/* <IconPencil size={20} color="blue" /> */}
-          edit
+          <MdEdit color="#228be6" size={24} />
         </Button>
         <Stack gap="xs">
           <Text fz="28px" fw={700}>
@@ -92,7 +92,6 @@ const CompanySpecificPage: React.FC = () => {
 
           {company.contactPerson && (
             <Group gap="xs">
-              {/* <IconUser size={16} /> */}
               <Text size="sm">Contact Person: {company.contactPerson}</Text>
             </Group>
           )}
@@ -163,11 +162,10 @@ const CompanySpecificPage: React.FC = () => {
             w={30}
             h={30}
             p={0}
-            // bg={"transparent"}
+            bg={"transparent"}
             onClick={() => openApplicationModal("edit")}
           >
-            {/* <IconPencil size={20} color="blue" /> */}
-            edit
+            <MdEdit color="#228be6" size={24} />
           </Button>
           <Stack gap="xs">
             <Text fz="28px" fw={700}>
@@ -194,10 +192,12 @@ const CompanySpecificPage: React.FC = () => {
         </Card>
       ) : (
         <div>
-          <Text>no application</Text>
           <Button onClick={() => openApplicationModal("create", id as string)}>
             create
           </Button>
+          <Flex w="100%" justify="center" align="center" h="30vh">
+            <Text>no application found</Text>
+          </Flex>
         </div>
       )}
     </Box>

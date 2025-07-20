@@ -3,3 +3,26 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
+
+.statusChip {
+  padding: 5px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #495057;
+  cursor: pointer;
+  transition-duration: 300ms;
+
+  &:hover {
+    background-color: #dee2e6;
+  }
+}
+
+.activeChip {
+  background-color: #228be6;
+  color: white;
+
+  &:hover {
+    background-color: #228be6;
+  }
+}

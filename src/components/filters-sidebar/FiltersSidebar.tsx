@@ -76,6 +76,13 @@ const FiltersSidebar: React.FC<IProps> = ({
         onChange={(e) => setSearch(e.currentTarget.value)}
         mb="md"
       />
+      {/* <Autocomplete
+        placeholder="Search company name"
+        value={search}
+        onChange={setSearch}
+        mb="md"
+        data={["Google", "Apple", "Microsoft", "Amazon", "Meta", "Tesla"]}
+      /> */}
 
       {/* Location */}
       <Text size="sm" mb={4}>

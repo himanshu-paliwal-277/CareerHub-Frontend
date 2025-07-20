@@ -1,40 +1,21 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import React, { memo, useState } from "react";
-import {
-  Box,
-  Center,
-  Loader,
-  Text,
-  Card,
-  Stack,
-  Flex,
-  Badge,
-  Divider,
-  Group,
-  Paper,
-  Pagination,
-} from "@mantine/core";
+import { Box, Center, Text, Flex, Pagination, Skeleton } from "@mantine/core";
 import styles from "./applicationsPage.module.css";
-import applicationIcon from "../../assets/icons/application.png";
-import Image from "next/image";
 import { getAllApplicationByUserId } from "@/services/getAllApplicationByUserId";
 import { Application } from "@/types/apResponse";
+import { ApplicationStatus, applicationStatus } from "./data";
+import ApplicationCard from "../application-card/ApplicationCard";
 
 const ApplicationsPage: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState<ApplicationStatus>("All");
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["getAllApplicationByUserId", page],
-    queryFn: () => getAllApplicationByUserId(page, 4),
+    queryKey: ["getAllApplicationByUserId", page, status],
+    queryFn: () => getAllApplicationByUserId(page, 8, status),
   });
-
-  if (isLoading)
-    return (
-      <Center h="70vh" w="100%">
-        <Loader type="dots" color="blue" />
-      </Center>
-    );
 
   if (error instanceof Error)
     return (
@@ -52,112 +33,51 @@ const ApplicationsPage: React.FC = () => {
           Applications
         </Text>
       </Flex>
-
-      <Box className={styles.applicationContainer} mt="40px">
-        {applications.map((application: Application) => (
-          <Card
-            key={application._id}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            className={styles.card}
+      <Flex align="center" gap={20} mt={40} mb={30}>
+        {applicationStatus.map((val, index) => (
+          <button
+            className={`${styles.statusChip} ${
+              val === status ? styles.activeChip : ""
+            }`}
+            key={index ** 2}
+            onClick={() => {
+              setStatus(val as ApplicationStatus);
+            }}
           >
-            <Stack gap="xs">
-              {/* Icon */}
-              <Box className={styles.applicationIconContainer}>
-                <Image
-                  className={styles.applicationIcon}
-                  src={applicationIcon}
-                  alt="application-icon"
-                  width={70}
-                  height={70}
-                />
-              </Box>
-
-              {/* Status */}
-              <Group justify="space-between" align="center">
-                <Text fw={600} fz="lg">
-                  Status:
-                </Text>
-                <Badge color="blue" variant="light">
-                  {application.status}
-                </Badge>
-              </Group>
-
-              {/* Company Name */}
-              {application.company?.name && (
-                <Group justify="space-between" align="center">
-                  <Text fw={600}>Company:</Text>
-                  <Text>{application.company.name}</Text>
-                </Group>
-              )}
-
-              {/* Application Date */}
-              {application.applicationDate && (
-                <Group justify="space-between" align="center">
-                  <Text fw={600}>Application Date:</Text>
-                  <Text>
-                    {new Date(application.applicationDate).toLocaleDateString()}
-                  </Text>
-                </Group>
-              )}
-
-              {/* Notes */}
-              {application.notes && (
-                <Box>
-                  <Text fw={600}>Notes:</Text>
-                  <Paper radius="sm" bg={"#eeeeeeff"} p="10px" mih={"75px"}>
-                    <Text>{application.notes}</Text>
-                  </Paper>
-                </Box>
-              )}
-
-              {/* Created At */}
-              <Group justify="space-between" align="center">
-                <Text fw={600}>Created At:</Text>
-                <Text size="sm" c="dimmed">
-                  {new Date(application.createdAt).toLocaleString()}
-                </Text>
-              </Group>
-
-              {/* Updated At */}
-              <Group justify="space-between" align="center">
-                <Text fw={600}>Updated At:</Text>
-                <Text size="sm" c="dimmed">
-                  {new Date(application.updatedAt).toLocaleString()}
-                </Text>
-              </Group>
-
-              <Divider my="sm" />
-
-              {/* User Id */}
-              <Group justify="space-between" align="center">
-                <Text fw={600}>User Id:</Text>
-                <Text size="xs" c="dimmed">
-                  {application.user}
-                </Text>
-              </Group>
-
-              {/* Application Id */}
-              <Group justify="space-between" align="center">
-                <Text fw={600}>Application Id:</Text>
-                <Text size="xs" c="dimmed">
-                  {application._id}
-                </Text>
-              </Group>
-            </Stack>
-          </Card>
+            {val}
+          </button>
         ))}
-      </Box>
+      </Flex>
+
+      {isLoading && (
+        <Box className={styles.applicationContainer}>
+          {Array.from({ length: 8 }).map((_, index) => (
+            <Skeleton key={index ** 2} width={"100%"} height={400} radius={8} />
+          ))}
+        </Box>
+      )}
+
+      {!isLoading && applications.length > 0 ? (
+        <Box className={styles.applicationContainer}>
+          {applications.map((application: Application) => (
+            <ApplicationCard key={application._id} application={application} />
+          ))}
+        </Box>
+      ) : (
+        <Center h="70vh" w="100%">
+          <Text c="dimmed">No application found</Text>
+        </Center>
+      )}
 
       <Flex justify="flex-end" mt={40}>
-        <Pagination
-          total={data?.data?.totalPage || 1}
-          value={page}
-          onChange={setPage}
-          mt="sm"
-        />
+        {data?.data?.totalPage > 1 && (
+          <Pagination
+            total={data?.data?.totalPage || 1}
+            value={page}
+            onChange={setPage}
+            radius="xl"
+          />
+        )}
       </Flex>
     </Box>
   );
