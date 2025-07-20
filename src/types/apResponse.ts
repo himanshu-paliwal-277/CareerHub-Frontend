@@ -54,6 +54,7 @@ export interface Company {
     name: string;
     email: string;
   };
+  isApplied?: boolean; // Optional field to indicate if the user has applied to this company
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   __v: number;
@@ -82,4 +83,3 @@ export interface Application {
   updatedAt: string;
   __v: number;
 }
-
