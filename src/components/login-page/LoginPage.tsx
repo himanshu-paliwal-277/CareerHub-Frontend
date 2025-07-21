@@ -44,19 +44,14 @@ const LoginPage: React.FC = () => {
       color: "green",
     });
 
-    const { userId, name, email, token } = response.data;
-
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify({ id: userId, name, email }));
+    const { name, email } = response.data;
 
     dispatch(
       loginSuccess({
         user: {
-          id: userId,
           name,
           email,
         },
-        token,
       })
     );
 

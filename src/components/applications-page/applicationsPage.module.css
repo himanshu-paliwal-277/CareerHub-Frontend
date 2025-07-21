@@ -26,3 +26,12 @@
     background-color: #228be6;
   }
 }
+
+.filtersBar {
+  position: sticky;
+  top: 0px;
+  z-index: 50;
+  background-color: #f8f9fa;
+  padding: 30px 2px;
+  transform: scale(1.003);
+}

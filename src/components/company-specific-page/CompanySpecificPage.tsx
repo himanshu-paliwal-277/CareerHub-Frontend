@@ -58,7 +58,7 @@ const CompanySpecificPage: React.FC = () => {
   const application = applicationData?.data || false;
 
   return (
-    <Box p="40px">
+    <Box>
       {/* company card */}
       <Card
         shadow="sm"

@@ -27,13 +27,13 @@ const ApplicationsPage: React.FC = () => {
   const applications = data?.data?.applications || [];
 
   return (
-    <Box p="40px">
+    <Box>
       <Flex align="center">
         <Text w="100%" fz="32px" fw={700} ta="center">
           Applications
         </Text>
       </Flex>
-      <Flex align="center" gap={20} mt={40} mb={30}>
+      <Flex className={styles.filtersBar} align="center" gap={20} mt={40} mb={30}>
         {applicationStatus.map((val, index) => (
           <button
             className={`${styles.statusChip} ${
@@ -64,9 +64,11 @@ const ApplicationsPage: React.FC = () => {
           ))}
         </Box>
       ) : (
-        <Center h="70vh" w="100%">
-          <Text c="dimmed">No application found</Text>
-        </Center>
+        !isLoading && (
+          <Center h="70vh" w="100%">
+            <Text c="dimmed">No application found</Text>
+          </Center>
+        )
       )}
 
       <Flex justify="flex-end" mt={40}>

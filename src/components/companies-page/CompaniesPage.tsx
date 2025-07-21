@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCompanies } from "@/services/getAllCompanies";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   Box,
   Center,
@@ -28,19 +28,9 @@ const CompaniesPage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [debouncedSearch] = useDebouncedValue(search, 300);
 
-  const handleApply = () => {
-    const tagsString = tags.join(",");
+  useEffect(() => {
     setPage(1);
-    getAllCompanies(
-      1,
-      8,
-      debouncedSearch,
-      location,
-      tagsString,
-      sortBy,
-      sortOrder
-    );
-  };
+  }, [debouncedSearch, location, tags, sortBy, sortOrder]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: [
@@ -76,7 +66,7 @@ const CompaniesPage: React.FC = () => {
   const companies = data?.data?.companies || [];
 
   return (
-    <Box p="40px">
+    <Box>
       <Flex align="center" pos={"relative"}>
         <Text w="100%" fz="32px" fw={700} ta="center">
           Companies
@@ -101,7 +91,6 @@ const CompaniesPage: React.FC = () => {
           setSortBy={setSortBy}
           sortOrder={sortOrder}
           setSortOrder={setSortOrder}
-          handleApply={handleApply}
         />
 
         <Box w={"100%"}>
@@ -128,9 +117,11 @@ const CompaniesPage: React.FC = () => {
               ))}
             </Box>
           ) : (
-            <Center h="70vh" w="100%">
-              <Text c="dimmed">No companies found</Text>
-            </Center>
+            !isLoading && (
+              <Center h="70vh" w="100%">
+                <Text c="dimmed">No companies found</Text>
+              </Center>
+            )
           )}
           <Flex justify="flex-end" mt={40}>
             {data?.data?.totalPage > 1 && (

@@ -16,6 +16,7 @@ import Image from "next/image";
 import { Application } from "@/types/apResponse";
 import { MdEdit } from "react-icons/md";
 import { openApplicationModal } from "@/modals/applicationModal/openApplicationModal";
+import truncateString from "@/helper/truncateString";
 
 interface IProps {
   application: Application;
@@ -68,7 +69,7 @@ const ApplicationCard: React.FC<IProps> = ({ application }) => {
         {application.company?.name && (
           <Group justify="space-between" align="center">
             <Text fw={600}>Company:</Text>
-            <Text>{application.company.name}</Text>
+            <Text>{truncateString(application.company.name, 20)}</Text>
           </Group>
         )}
 
@@ -92,6 +93,8 @@ const ApplicationCard: React.FC<IProps> = ({ application }) => {
           </Box>
         )}
 
+        <Divider my="sm" />
+
         {/* Created At */}
         <Group justify="space-between" align="center">
           <Text fw={600}>Created At:</Text>
@@ -105,24 +108,6 @@ const ApplicationCard: React.FC<IProps> = ({ application }) => {
           <Text fw={600}>Updated At:</Text>
           <Text size="sm" c="dimmed">
             {new Date(application.updatedAt).toLocaleString()}
-          </Text>
-        </Group>
-
-        <Divider my="sm" />
-
-        {/* User Id */}
-        <Group justify="space-between" align="center">
-          <Text fw={600}>User Id:</Text>
-          <Text size="xs" c="dimmed">
-            {application.user}
-          </Text>
-        </Group>
-
-        {/* Application Id */}
-        <Group justify="space-between" align="center">
-          <Text fw={600}>Application Id:</Text>
-          <Text size="xs" c="dimmed">
-            {application._id}
           </Text>
         </Group>
       </Stack>

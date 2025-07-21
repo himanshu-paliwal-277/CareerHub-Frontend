@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
-import styles from './footer.module.css';
+import React, { memo } from "react";
+import styles from "./footer.module.css";
 
 const Footer: React.FC = () => {
   return (
     <div className={styles.container}>
-      footer
+      Copyright © 2025 Himanshu Paliwal — All rights reserved.
     </div>
   );
 };

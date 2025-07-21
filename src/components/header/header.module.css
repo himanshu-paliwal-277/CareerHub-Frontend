@@ -1,6 +1,6 @@
 .header {
   width: 100%;
-  padding: 12px 40px;
+  padding: 12px 60px;
   box-shadow: 0px 2px 8px #ebebeb;
   position: relative;
   z-index: 20;
@@ -14,4 +14,10 @@
 .link {
   color: blue;
   text-decoration: none;
+}
+
+.activeLink {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }

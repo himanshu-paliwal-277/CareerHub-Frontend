@@ -11,7 +11,6 @@ export interface LoginResponseData {
   userId: string;
   name: string;
   email: string;
-  token: string;
 }
 
 export type LoginApiResponse = ApiResponse<LoginResponseData>;

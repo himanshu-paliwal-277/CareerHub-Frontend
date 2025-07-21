@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import styles from "./filtersSidebar.module.css";
 import {
   Button,
@@ -24,7 +24,6 @@ interface IProps {
   setSortBy: (value: string) => void;
   sortOrder: string;
   setSortOrder: (value: string) => void;
-  handleApply: () => void;
 }
 
 const FiltersSidebar: React.FC<IProps> = ({
@@ -38,12 +37,7 @@ const FiltersSidebar: React.FC<IProps> = ({
   setSortBy,
   sortOrder,
   setSortOrder,
-  handleApply,
 }) => {
-  useEffect(() => {
-    handleApply();
-  }, [search, location, tags, sortBy, sortOrder]);
-
   const handleReset = () => {
     setSearch("");
     setLocation("");
@@ -149,7 +143,6 @@ const FiltersSidebar: React.FC<IProps> = ({
         <Button variant="default" onClick={handleReset}>
           Reset
         </Button>
-        {/* <Button onClick={handleApply}>Apply</Button> */}
       </Group>
     </Card>
   );

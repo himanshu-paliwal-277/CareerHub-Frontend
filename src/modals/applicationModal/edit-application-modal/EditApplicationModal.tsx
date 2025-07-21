@@ -45,9 +45,15 @@ const EditApplicationModal: React.FC<IProps> = ({ id }) => {
       return;
     }
 
-    queryClient.invalidateQueries({
-      queryKey: ["getUserApplicationByCompany"],
-    });
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ["getAllApplicationByUserId"],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ["getUserApplicationByCompany"],
+      }),
+    ]);
+
     modals.closeAll();
 
     notifications.show({
