@@ -13,7 +13,7 @@ export const openApplicationModal = (
     id: "applicationModal",
     title: `${type.charAt(0).toUpperCase() + type.slice(1)} Application Modal`,
     centered: true,
-    size: "50%",
+    size: "500px",
     styles: {
       body: { padding: "0px 20px 20px 20px" },
       header: { padding: 20 },

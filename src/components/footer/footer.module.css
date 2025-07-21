@@ -6,4 +6,10 @@
   align-items: center;
   background-color: #181818;
   color: #eeeeee;
+  padding: 10px;
+
+  @media (max-width: 420px) {
+    font-size: 12px;
+    text-align: center;
+  }
 }

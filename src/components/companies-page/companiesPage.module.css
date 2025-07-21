@@ -5,11 +5,35 @@
   flex-grow: 1;
   width: 100%;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+  }
+}
+
+.mainContainer {
+  @media (max-width: 520px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.header {
+  @media (max-width: 420px) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.createButton {
+  position: absolute;
+  right: 0px;
+
+  @media (max-width: 420px) {
+    position: relative;
   }
 }

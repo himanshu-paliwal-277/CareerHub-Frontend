@@ -67,19 +67,23 @@ const CompaniesPage: React.FC = () => {
 
   return (
     <Box>
-      <Flex align="center" pos={"relative"}>
+      <Flex className={styles.header} align="center" pos={"relative"}>
         <Text w="100%" fz="32px" fw={700} ta="center">
           Companies
         </Text>
         <Button
-          pos="absolute"
-          right="0"
+          className={styles.createButton}
           onClick={() => openCompanyModal("create")}
         >
           Create
         </Button>
       </Flex>
-      <Flex mt="40px" gap={"36px"} align="start">
+      <Flex
+        className={styles.mainContainer}
+        mt="40px"
+        gap={"36px"}
+        align="start"
+      >
         <FiltersSidebar
           search={search}
           setSearch={setSearch}

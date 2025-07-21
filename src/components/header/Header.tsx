@@ -1,8 +1,8 @@
 "use client";
 import {
   Avatar,
-  Box,
   Button,
+  Drawer,
   Flex,
   Group,
   Menu,
@@ -10,6 +10,7 @@ import {
   MenuTarget,
   Text,
 } from "@mantine/core";
+import { FiMenu } from "react-icons/fi";
 import styles from "./header.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,12 +21,15 @@ import { logout } from "@/store/slices/authSlice";
 import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { logoutAPI } from "@/services/logout";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname(); // ✅ current route
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const [opened, { open, close }] = useDisclosure(false);
+  const mobile = useMediaQuery("(max-width: 768px)");
 
   const logoutUser = async () => {
     try {
@@ -56,85 +60,140 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <Group justify="space-between" h="100%">
-        <Image
-          className={styles.logoImage}
-          src={logo}
-          alt="logo"
-          width={180}
-          height={65}
-        />
+    <>
+      <header className={styles.header}>
+        <Group justify="space-between" h="100%">
+          <Image
+            className={styles.logoImage}
+            src={logo}
+            alt="logo"
+            width={180}
+            height={65}
+          />
 
-        <Group gap={20}>
-          <Link
-            href="/dashboard"
-            className={`${styles.link} ${
-              pathname === "/dashboard" ? styles.activeLink : ""
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/companies"
-            className={`${styles.link} ${
-              pathname === "/companies" ? styles.activeLink : ""
-            }`}
-          >
-            Companies
-          </Link>
-          <Link
-            href="/applications"
-            className={`${styles.link} ${
-              pathname === "/applications" ? styles.activeLink : ""
-            }`}
-          >
-            Applications
-          </Link>
+          {!mobile && (
+            <Group gap={20}>
+              <Link
+                href="/dashboard"
+                className={`${styles.link} ${
+                  pathname === "/dashboard" ? styles.activeLink : ""
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                href="/companies"
+                className={`${styles.link} ${
+                  pathname === "/companies" ? styles.activeLink : ""
+                }`}
+              >
+                Companies
+              </Link>
+              <Link
+                href="/applications"
+                className={`${styles.link} ${
+                  pathname === "/applications" ? styles.activeLink : ""
+                }`}
+              >
+                Applications
+              </Link>
+            </Group>
+          )}
+
+          {isAuthenticated ? (
+            <Flex className={styles.userMenu} align="center" gap={12}>
+              {!mobile ? (
+                <Menu
+                  shadow="md"
+                  trigger="hover"
+                  openDelay={100}
+                  closeDelay={400}
+                  width={200}
+                >
+                  <MenuTarget>
+                    <Avatar size={"44px"} color="cyan" radius="xl">
+                      {user?.name.charAt(0)}
+                    </Avatar>
+                  </MenuTarget>
+
+                  <MenuDropdown p="16px">
+                    <Flex direction={"column"} align="center">
+                      <Avatar size={"60px"} color="cyan" radius="xl">
+                        {user?.name.charAt(0)}
+                      </Avatar>
+                      <Text mt={10} fz={"lg"} fw={500}>
+                        {user?.name}
+                      </Text>
+                      <Text c={"dimmed"}>{user?.email}</Text>
+
+                      <Button mt={12} onClick={handleLogout}>
+                        Logout
+                      </Button>
+                    </Flex>
+                  </MenuDropdown>
+                </Menu>
+              ) : (
+                <Button variant="transparent" p="0px" onClick={open}>
+                  <FiMenu size={24} />
+                </Button>
+              )}
+            </Flex>
+          ) : (
+            <Group visibleFrom="sm">
+              <Button variant="default" onClick={() => router.push("/login")}>
+                Log in
+              </Button>
+              <Button onClick={() => router.push("/register")}>Register</Button>
+            </Group>
+          )}
         </Group>
+      </header>
+      <Drawer opened={opened} onClose={close} position={"right"}>
+        <Flex direction={"column"} align="center">
+          <Avatar size={"60px"} color="cyan" radius="xl">
+            {user?.name.charAt(0)}
+          </Avatar>
+          <Text mt={10} fz={"lg"} fw={500}>
+            {user?.name}
+          </Text>
+          <Text c={"dimmed"}>{user?.email}</Text>
 
-        {isAuthenticated ? (
-          <Box ml={80}>
-            <Menu
-              shadow="md"
-              trigger="hover"
-              openDelay={100}
-              closeDelay={400}
-              width={200}
+          <Flex direction={"column"} align="center" my={20} gap={10}>
+            <Link
+              href="/dashboard"
+              className={`${styles.link} ${
+                pathname === "/dashboard" ? styles.activeLink : ""
+              }`}
+              onClick={close}
             >
-              <MenuTarget>
-                <Avatar size={"44px"} color="cyan" radius="xl">
-                  {user?.name.charAt(0)}
-                </Avatar>
-              </MenuTarget>
+              Home
+            </Link>
+            <Link
+              href="/companies"
+              className={`${styles.link} ${
+                pathname === "/companies" ? styles.activeLink : ""
+              }`}
+              onClick={close}
+            >
+              Companies
+            </Link>
+            <Link
+              href="/applications"
+              className={`${styles.link} ${
+                pathname === "/applications" ? styles.activeLink : ""
+              }`}
+              onClick={close}
+            >
+              Applications
+            </Link>
+          </Flex>
 
-              <MenuDropdown p="16px">
-                <Flex direction={"column"} align="center">
-                  <Avatar size={"60px"} color="cyan" radius="xl">
-                    {user?.name.charAt(0)}
-                  </Avatar>
-                  <Text mt={10} fz={"lg"} fw={500}>
-                    {user?.name}
-                  </Text>
-                  <Text c={"dimmed"}>{user?.email}</Text>
-
-                  <Button mt={12} onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </Flex>
-              </MenuDropdown>
-            </Menu>
-          </Box>
-        ) : (
-          <Group visibleFrom="sm">
-            <Button variant="default" onClick={() => router.push("/login")}>
-              Log in
-            </Button>
-            <Button onClick={() => router.push("/register")}>Register</Button>
-          </Group>
-        )}
-      </Group>
-    </header>
+          <Button mt={12} onClick={handleLogout}>
+            Logout
+          </Button>
+        </Flex>
+      </Drawer>
+    </>
   );
 };
 

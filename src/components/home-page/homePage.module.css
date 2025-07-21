@@ -18,8 +18,39 @@
   cursor: pointer;
   text-decoration: none;
   color: #242424;
+
+  @media (max-width: 1200px) {
+    width: 60%;
+  }
+
+  @media (max-width: 520px) {
+    width: 100%;
+    padding: 20px;
+    gap: 10px;
+  }
 }
 
 .section2 {
   margin-left: auto;
+}
+
+.companyIcon,
+.applicationIcon {
+  @media (max-width: 420px) {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+}
+
+.heading {
+  @media (max-width: 420px) {
+    font-size: 20px;
+  }
+}
+
+.description {
+  @media (max-width: 420px) {
+    font-size: 14px;
+  }
 }

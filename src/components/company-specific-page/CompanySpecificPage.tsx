@@ -67,12 +67,13 @@ const CompanySpecificPage: React.FC = () => {
         withBorder
         className={styles.card}
         pos={"relative"}
-        mb={40}
+        mb={{ sm: 40, base: 20 }}
+        mt={{ sm: 0, base: 20 }}
       >
         <Button
           pos="absolute"
-          top={20}
-          right={20}
+          top={{ xs: 20, base: 10 }}
+          right={{ xs: 20, base: 10 }}
           w={30}
           h={30}
           p={0}
@@ -154,11 +155,12 @@ const CompanySpecificPage: React.FC = () => {
           withBorder
           className={styles.card}
           pos={"relative"}
+          mb={20}
         >
           <Button
             pos="absolute"
-            top={20}
-            right={20}
+            top={{ xs: 20, base: 10 }}
+            right={{ xs: 20, base: 10 }}
             w={30}
             h={30}
             p={0}

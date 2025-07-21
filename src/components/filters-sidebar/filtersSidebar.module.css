@@ -2,4 +2,10 @@
   width: 340px;
   position: sticky;
   top: 20px;
+
+  @media (max-width: 520px) {
+    width: 100%;
+    position: relative;
+    top: 0px;
+  }
 }

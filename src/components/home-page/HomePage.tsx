@@ -20,9 +20,9 @@ const HomePage: React.FC = () => {
             width={70}
             height={70}
           />
-          <h2>View all companies</h2>
+          <h2 className={styles.heading}>View all companies</h2>
 
-          <p>
+          <p className={styles.description}>
             Explore the companies you have added, view their details, and manage
             your applications.
           </p>
@@ -32,13 +32,14 @@ const HomePage: React.FC = () => {
           className={`${styles.section} ${styles.section2}`}
         >
           <Image
+            className={styles.applicationIcon}
             src={applicationIcon}
             alt="application-icon"
             width={70}
             height={70}
           />
-          <h2>Track your applications</h2>
-          <p>
+          <h2 className={styles.heading}>Track your applications</h2>
+          <p className={styles.description}>
             Keep track of your job applications, their status, and any notes you
             want to remember.
           </p>

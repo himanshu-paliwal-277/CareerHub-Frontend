@@ -9,7 +9,7 @@ export const openCompanyModal = (type: modalType) => {
     id: "companyModal",
     title: `${type.charAt(0).toUpperCase() + type.slice(1)} Company Modal`,
     centered: true,
-    size: "60%",
+    size: "700px",
     styles: {
       body: { padding: "0px 20px 20px 20px" },
       header: { padding: 20 },

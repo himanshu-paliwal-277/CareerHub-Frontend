@@ -4,6 +4,14 @@
   flex-direction: column;
   gap: 40px;
   padding: 60px 20px 100px 20px;
+
+  @media (max-width: 768px) {
+    padding: 50px 10px;
+  }
+
+  @media (max-width: 420px) {
+    padding: 35px 0px;
+  }
 }
 
 .title {
@@ -11,12 +19,28 @@
   font-weight: 600;
   color: #000000;
   margin-bottom: 14px;
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 28px;
+  }
 }
 
 .description {
   font-size: 20px;
   font-weight: 400;
   color: #666;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 }
 
 .stat {
@@ -29,11 +53,27 @@
   font-size: 18px;
   font-weight: 400;
   color: #555;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 420px) {
+    text-align: center;
+  }
 }
 
 .statValue {
   font-size: 46px;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 420px) {
+    text-align: center;
+  }
 }
 
 .gridContainer {
@@ -41,4 +81,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
 }

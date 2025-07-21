@@ -9,7 +9,8 @@ import { Skeleton } from "@mantine/core";
 const headingMapper: Record<string, string> = {
   totalCompanies: "Total Companies",
   totalApplications: "Total Applications",
-  totalCleared: "Total Interview Cleared",
+  // totalCleared: "Total Interview Cleared",
+  totalCleared: "Total Interview",
 };
 
 const HeroSection: React.FC = () => {

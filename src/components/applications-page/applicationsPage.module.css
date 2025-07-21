@@ -2,6 +2,18 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .statusChip {
@@ -34,4 +46,9 @@
   background-color: #f8f9fa;
   padding: 30px 2px;
   transform: scale(1.003);
+  overflow-x: auto;
+
+  @media (max-width: 520px) {
+    padding: 20px 2px;
+  }
 }
