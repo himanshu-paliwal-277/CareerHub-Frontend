@@ -60,6 +60,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
               "Interview",
               "Offer",
               "Rejected",
+              "Cleared",
             ]}
             {...form.getInputProps("status")}
           />

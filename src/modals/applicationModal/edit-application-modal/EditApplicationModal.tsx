@@ -52,6 +52,9 @@ const EditApplicationModal: React.FC<IProps> = ({ id }) => {
       queryClient.invalidateQueries({
         queryKey: ["getUserApplicationByCompany"],
       }),
+      queryClient.invalidateQueries({
+        queryKey: ["getApplicationById"],
+      }),
     ]);
 
     modals.closeAll();
