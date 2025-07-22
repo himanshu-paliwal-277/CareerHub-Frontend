@@ -12,9 +12,16 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // ⚠ Token expired or unauthorized
-      store.dispatch(logout()); // ✅ Dispatch directly
+    const originalRequest = error.config;
+
+    // If 401 and not login/signup route
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest?.url?.includes("/users/signin") &&
+      !originalRequest?.url?.includes("/users/signup")
+    ) {
+      store.dispatch(logout());
 
       notifications.show({
         title: "Session expired",
@@ -22,7 +29,6 @@ axiosInstance.interceptors.response.use(
         color: "red",
       });
 
-      // Optional: redirect
       window.location.href = "/login";
     }
 

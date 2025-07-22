@@ -92,7 +92,7 @@ const CompanySpecificPage: React.FC = () => {
           </Text>
 
           <Text c="dimmed" size="sm">
-            Company Size: {company.companySize}
+            Company Size: {company.companySize} employees
           </Text>
 
           <Group gap="xs" wrap="wrap">
@@ -206,7 +206,7 @@ const CompanySpecificPage: React.FC = () => {
             h={30}
             p={0}
             bg={"transparent"}
-            onClick={() => openApplicationModal("edit")}
+            onClick={() => openApplicationModal("edit", "", application._id)}
           >
             <MdEdit color="#228be6" size={24} />
           </Button>
@@ -215,16 +215,19 @@ const CompanySpecificPage: React.FC = () => {
               Application
             </Text>
 
+            <Flex gap={8}>
+              <Text c="dimmed" size="sm">
+                Status:
+              </Text>
+              <Badge>{application?.status}</Badge>
+            </Flex>
+
             <Text c="dimmed" size="sm">
-              status: {application?.status}
+              Application Date: {dateFormatter(application?.applicationDate)}
             </Text>
 
             <Text c="dimmed" size="sm">
-              application date: {dateFormatter(application?.applicationDate)}
-            </Text>
-
-            <Text c="dimmed" size="sm">
-              notes: {application?.notes}
+              Notes: {application?.notes}
             </Text>
 
             <Divider my="sm" />

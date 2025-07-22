@@ -26,7 +26,8 @@ const HeroSection: React.FC = () => {
 
   const { data: data3, isLoading: loading3 } = useQuery({
     queryKey: ["getTotalCountOfApplication2"],
-    queryFn: () => getTotalCountOfApplication("Cleared"),
+    queryFn: () =>
+      getTotalCountOfApplication(["Interview", "Cleared", "Offer"].join(",")),
   });
 
   const data = {

@@ -106,7 +106,7 @@ const RegisterPage: React.FC = () => {
           </Text>
 
           <Button loading={loading} w="100%" type="submit" radius="sm">
-            register
+            Register
           </Button>
         </form>
       </Paper>

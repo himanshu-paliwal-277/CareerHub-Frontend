@@ -116,13 +116,16 @@ const FiltersSidebar: React.FC<IProps> = ({
         clearable
       />
 
+      {/* Application Status */}
+      <Text size="sm" mb={4}>
+        Application Status
+      </Text>
       <RadioGroup
-        label="Application Status"
         value={applicationStatus}
         onChange={(value) => setApplicationStatus(value)}
         mb="md"
       >
-        <Flex direction={"column"} gap={16} mt="md">
+        <Flex direction={"column"} gap={16} mt="sm">
           <Radio value="all" label="All" />
           <Radio value="applied" label="Applied" />
           <Radio value="notApplied" label="Not Applied" />

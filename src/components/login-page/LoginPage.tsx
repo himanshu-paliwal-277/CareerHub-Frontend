@@ -30,12 +30,21 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     try {
       const response = await login(form.values);
+      console.log("response == ", response);
 
-      if (!response?.success || !response.data) {
-        console.error("Login failed");
+      if (!response?.success) {
         notifications.show({
           title: "Login Failed",
-          message: response?.message ?? "Login failed",
+          message: response?.message || "Login failed",
+          color: "red",
+        });
+        return;
+      }
+
+      if (!response.data) {
+        notifications.show({
+          title: "Login Failed",
+          message: "Invalid response from server.",
           color: "red",
         });
         return;
@@ -51,10 +60,7 @@ const LoginPage: React.FC = () => {
 
       dispatch(
         loginSuccess({
-          user: {
-            name,
-            email,
-          },
+          user: { name, email },
         })
       );
 
@@ -67,7 +73,7 @@ const LoginPage: React.FC = () => {
         color: "red",
       });
     } finally {
-      setLoading(false); // Always executed
+      setLoading(false);
     }
   };
 
@@ -110,7 +116,7 @@ const LoginPage: React.FC = () => {
           </Text>
 
           <Button loading={loading} w="100%" type="submit" radius="sm">
-            login
+            Login
           </Button>
         </form>
       </Paper>

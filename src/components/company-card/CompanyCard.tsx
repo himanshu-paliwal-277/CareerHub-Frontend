@@ -55,7 +55,7 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
         </Text>
 
         <Text c="dimmed" size="sm">
-          Company Size: {company.companySize}
+          Company Size: {company.companySize} employees
         </Text>
 
         <Group gap="xs" wrap="wrap">

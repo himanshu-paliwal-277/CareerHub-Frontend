@@ -18,7 +18,7 @@ const EditCompanyModal: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getCompanyById"],
+    queryKey: ["getCompanyById", id],
     queryFn: () => getCompanyById(id),
     enabled: !!id,
   });

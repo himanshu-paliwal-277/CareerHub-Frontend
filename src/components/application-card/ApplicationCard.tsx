@@ -17,6 +17,7 @@ import { Application } from "@/types/apResponse";
 import { MdEdit } from "react-icons/md";
 import { openApplicationModal } from "@/modals/applicationModal/openApplicationModal";
 import truncateString from "@/helper/truncateString";
+import TruncateText from "../TruncateText/TruncateText";
 
 interface IProps {
   application: Application;
@@ -88,7 +89,7 @@ const ApplicationCard: React.FC<IProps> = ({ application }) => {
           <Box>
             <Text fw={600}>Notes:</Text>
             <Paper radius="sm" bg={"#eeeeeeff"} p="10px" mih={"75px"}>
-              <Text>{application.notes}</Text>
+              <TruncateText text={application.notes} maxLength={130} />
             </Paper>
           </Box>
         )}
