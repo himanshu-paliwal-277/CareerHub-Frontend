@@ -46,7 +46,13 @@ export interface Company {
   website: string;
   linkedin: string;
   location: string;
-  contactPerson: string;
+  companySize: string;
+  contactInfo: {
+    contactPerson: string;
+    mobile: string;
+    email: string;
+    linkedIn: string;
+  };
   tags: string[];
   createdBy: {
     _id: string;

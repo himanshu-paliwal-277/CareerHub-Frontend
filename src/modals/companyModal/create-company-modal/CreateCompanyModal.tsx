@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { createCompany } from "@/services/createCompany";
 import CompanyForm, {
@@ -9,35 +9,49 @@ import { modals } from "@mantine/modals";
 
 const CreateCompanyModal: React.FC = () => {
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
 
   const handleCreate = async (values: CompanyInput) => {
-    const dataToSend = {
-      ...values,
-      tags: values.tags?.split(",").map((tag: string) => tag.trim()), // convert to array
-    };
+    setLoading(true);
+    try {
+      const response = await createCompany(values);
 
-    const response = await createCompany(dataToSend);
+      if (!response.success) {
+        notifications.show({
+          title: "Error",
+          message: response.message || "Failed to create company",
+          color: "red",
+        });
+        return;
+      }
 
-    if (!response.success) {
+      await queryClient.invalidateQueries({ queryKey: ["getAllCompanies"] });
+      modals.closeAll();
+
+      notifications.show({
+        title: "Success",
+        message: "Company created successfully",
+        color: "green",
+      });
+    } catch (error) {
+      console.error("Unexpected error while creating company:", error);
       notifications.show({
         title: "Error",
-        message: response.message || "Failed to create company",
+        message: "Something went wrong. Please try again.",
         color: "red",
       });
-      return;
+    } finally {
+      setLoading(false); // ✅ Always runs
     }
-
-    queryClient.invalidateQueries({ queryKey: ["getAllCompanies"] });
-    modals.closeAll();
-
-    notifications.show({
-      title: "Success",
-      message: "Company created successfully",
-      color: "green",
-    });
   };
 
-  return <CompanyForm onSubmit={handleCreate} submitButtonLabel="Create" />;
+  return (
+    <CompanyForm
+      onSubmit={handleCreate}
+      submitButtonLabel="Create"
+      loading={loading}
+    />
+  );
 };
 
 export default memo(CreateCompanyModal);

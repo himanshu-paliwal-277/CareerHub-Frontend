@@ -1,5 +1,5 @@
 "use client";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import styles from "../login-page/loginPage.module.css";
 import { Button, Paper, PasswordInput, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -12,6 +12,7 @@ import { notifications } from "@mantine/notifications";
 
 const RegisterPage: React.FC = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -24,24 +25,38 @@ const RegisterPage: React.FC = () => {
   });
 
   const onSubmit = async () => {
-    const response = await register(form.values);
-    if (!response?.success) {
-      console.error("Register failed");
+    setLoading(true);
+    try {
+      const response = await register(form.values);
+
+      if (!response?.success) {
+        console.error("Register failed");
+        notifications.show({
+          title: "Register Failed",
+          message: response?.message ?? "Registration failed",
+          color: "red",
+        });
+        return;
+      }
+
       notifications.show({
-        title: "Register Failed",
-        message: response?.message ?? "Register failed",
+        title: "Register Success",
+        message: "You are registered successfully",
+        color: "green",
+      });
+
+      router.push("/login");
+    } catch (error) {
+      console.error("Unexpected error during registration:", error);
+      notifications.show({
+        title: "Error",
+        message: "Something went wrong. Please try again.",
         color: "red",
       });
-      return;
+    } finally {
+      setLoading(false); // ✅ Always executed
     }
-
-    notifications.show({
-      title: "Register Success",
-      message: "You are registered successfully",
-    });
-    router.push("/login");
   };
-
   return (
     <div className={styles.container}>
       <Paper radius="md" p="lg" withBorder className={styles.innerContainer}>
@@ -90,7 +105,7 @@ const RegisterPage: React.FC = () => {
             </Link>
           </Text>
 
-          <Button w="100%" type="submit" radius="sm">
+          <Button loading={loading} w="100%" type="submit" radius="sm">
             register
           </Button>
         </form>

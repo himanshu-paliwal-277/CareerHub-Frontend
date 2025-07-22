@@ -6,6 +6,7 @@ export const getAllCompanies = async (
   search?: string,
   location?: string,
   tags?: string,
+  applicationStatus?: string,
   sortBy?: string,
   sortOrder?: string
 ) => {
@@ -17,6 +18,7 @@ export const getAllCompanies = async (
         search,
         location,
         tags,
+        applicationStatus,
         sortBy,
         sortOrder,
       },

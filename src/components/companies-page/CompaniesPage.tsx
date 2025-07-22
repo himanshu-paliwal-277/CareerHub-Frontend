@@ -24,6 +24,7 @@ const CompaniesPage: React.FC = () => {
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [applicationStatus, setApplicationStatus] = useState<string>("all");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [debouncedSearch] = useDebouncedValue(search, 300);
@@ -39,17 +40,20 @@ const CompaniesPage: React.FC = () => {
       debouncedSearch,
       location,
       tags,
+      applicationStatus,
       sortBy,
       sortOrder,
     ],
     queryFn: () => {
       const tagsString = tags.join(",");
+
       return getAllCompanies(
         page,
         6,
         search,
         location,
         tagsString,
+        applicationStatus,
         sortBy,
         sortOrder
       );
@@ -91,6 +95,8 @@ const CompaniesPage: React.FC = () => {
           setLocation={setLocation}
           tags={tags}
           setTags={setTags}
+          applicationStatus={applicationStatus}
+          setApplicationStatus={setApplicationStatus}
           sortBy={sortBy}
           setSortBy={setSortBy}
           sortOrder={sortOrder}

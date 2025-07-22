@@ -54,12 +54,9 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
           Location: {company.location}
         </Text>
 
-        {company.contactPerson && (
-          <Group gap="xs">
-            Contact Person:
-            <Text size="sm">{company.contactPerson}</Text>
-          </Group>
-        )}
+        <Text c="dimmed" size="sm">
+          Company Size: {company.companySize}
+        </Text>
 
         <Group gap="xs" wrap="wrap">
           {company.tags?.map((tag: string) => (
@@ -69,7 +66,7 @@ const CompanyCard: React.FC<IProps> = ({ company, isApplied }) => {
           ))}
         </Group>
 
-        <Group gap="sm" mt="xs">
+        <Group gap="sm">
           {company.website && (
             <Anchor
               href={company.website}

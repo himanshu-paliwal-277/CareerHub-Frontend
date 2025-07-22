@@ -1,5 +1,5 @@
 "use client";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCompanyById } from "@/services/getCompanyById";
 import { useParams } from "next/navigation";
@@ -15,6 +15,7 @@ const EditCompanyModal: React.FC = () => {
   const params = useParams();
   const id = params?.id as string;
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["getCompanyById"],
@@ -33,40 +34,45 @@ const EditCompanyModal: React.FC = () => {
   const company = data?.data;
 
   const handleUpdate = async (values: CompanyInput) => {
-    const updated = {
-      ...values,
-      tags: values.tags?.split(",").map((tag: string) => tag.trim()),
-    };
+    setLoading(true);
+    try {
+      const response = await updateCompany(id, values);
 
-    const response = await updateCompany(id, updated);
+      if (!response.success) {
+        notifications.show({
+          title: "Update Failed",
+          message: response.message || "Failed to update company",
+          color: "red",
+        });
+        return;
+      }
 
-    if (!response.success) {
+      await queryClient.invalidateQueries({ queryKey: ["getCompanyById"] });
+      modals.closeAll();
+
       notifications.show({
-        title: "Update Failed",
-        message: response.message || "Failed to update company",
+        title: "Updated",
+        message: "Company updated successfully",
+        color: "green",
+      });
+    } catch (error) {
+      console.error("Unexpected error while updating company:", error);
+      notifications.show({
+        title: "Error",
+        message: "Something went wrong. Please try again.",
         color: "red",
       });
-      return;
+    } finally {
+      setLoading(false); // ✅ Ensures loading state is reset
     }
-
-    queryClient.invalidateQueries({ queryKey: ["getCompanyById"] });
-    modals.closeAll();
-
-    notifications.show({
-      title: "Updated",
-      message: "Company updated successfully",
-      color: "green",
-    });
   };
 
   return (
     <CompanyForm
-      initialValues={{
-        ...company,
-        tags: company.tags?.join(", "),
-      }}
+      initialValues={company}
       onSubmit={handleUpdate}
       submitButtonLabel="Update"
+      loading={loading}
     />
   );
 };

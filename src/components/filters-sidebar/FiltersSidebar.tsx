@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Divider,
+  Flex,
   Group,
   MultiSelect,
   Radio,
@@ -20,6 +21,8 @@ interface IProps {
   setLocation: (value: string) => void;
   tags: string[];
   setTags: (value: string[]) => void;
+  applicationStatus: string;
+  setApplicationStatus: (value: string) => void;
   sortBy: string;
   setSortBy: (value: string) => void;
   sortOrder: string;
@@ -33,6 +36,8 @@ const FiltersSidebar: React.FC<IProps> = ({
   setLocation,
   tags,
   setTags,
+  applicationStatus,
+  setApplicationStatus,
   sortBy,
   setSortBy,
   sortOrder,
@@ -42,6 +47,7 @@ const FiltersSidebar: React.FC<IProps> = ({
     setSearch("");
     setLocation("");
     setTags([]);
+    setApplicationStatus("All");
     setSortBy("createdAt");
     setSortOrder("desc");
   };
@@ -102,14 +108,26 @@ const FiltersSidebar: React.FC<IProps> = ({
           "BACKEND",
           "FULL STACK",
           "MERN",
-          "SOFTWARE",
-          "PRODUCT",
+          "SOFTWARE DEVELOPER",
         ]}
         value={tags}
         onChange={setTags}
         mb="md"
         clearable
       />
+
+      <RadioGroup
+        label="Application Status"
+        value={applicationStatus}
+        onChange={(value) => setApplicationStatus(value)}
+        mb="md"
+      >
+        <Flex direction={"column"} gap={16} mt="md">
+          <Radio value="all" label="All" />
+          <Radio value="applied" label="Applied" />
+          <Radio value="notApplied" label="Not Applied" />
+        </Flex>
+      </RadioGroup>
 
       {/* Sort By */}
       <Text size="sm" mb={4}>

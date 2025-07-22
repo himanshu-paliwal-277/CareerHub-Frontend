@@ -25,12 +25,14 @@ interface ApplicationFormProps {
   initialValues?: ApplicationInput;
   onSubmit: (values: ApplicationInput) => void;
   submitButtonLabel?: string;
+  loading?: boolean;
 }
 
 const ApplicationForm: React.FC<ApplicationFormProps> = ({
   initialValues,
   onSubmit,
   submitButtonLabel = "Submit",
+  loading = false,
 }) => {
   const form = useForm({
     initialValues: {
@@ -75,7 +77,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
             radius="sm"
             {...form.getInputProps("notes")}
           />
-          <Button type="submit" radius="sm" w="100px">
+          <Button loading={loading} type="submit" radius="sm" w="100px">
             {submitButtonLabel}
           </Button>
         </Stack>

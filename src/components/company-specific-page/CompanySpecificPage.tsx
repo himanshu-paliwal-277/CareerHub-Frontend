@@ -91,18 +91,9 @@ const CompanySpecificPage: React.FC = () => {
             Location: {company.location}
           </Text>
 
-          {company.contactPerson && (
-            <Group gap="xs">
-              <Text size="sm">Contact Person: {company.contactPerson}</Text>
-            </Group>
-          )}
-
-          {company.description && (
-            <>
-              <Divider my="xs" />
-              <Text size="sm">{company.description}</Text>
-            </>
-          )}
+          <Text c="dimmed" size="sm">
+            Company Size: {company.companySize}
+          </Text>
 
           <Group gap="xs" wrap="wrap">
             {company.tags?.map((tag: string) => (
@@ -132,6 +123,56 @@ const CompanySpecificPage: React.FC = () => {
               </Anchor>
             )}
           </Group>
+
+          {company.contactInfo && (
+            <Box>
+              <Text fw={500} size="sm" mb={4}>
+                Contact Info:
+              </Text>
+              <Stack gap={2} pl="md">
+                {company.contactInfo.mobile && (
+                  <Text size="sm" c="dimmed">
+                    Contact Person:{" "}
+                    <Text span c="black">
+                      {company.contactInfo.contactPerson}
+                    </Text>
+                  </Text>
+                )}
+                {company.contactInfo.mobile && (
+                  <Text size="sm" c="dimmed">
+                    Mobile:{" "}
+                    <Text span c="black">
+                      {company.contactInfo.mobile}
+                    </Text>
+                  </Text>
+                )}
+                {company.contactInfo.email && (
+                  <Text size="sm" c="dimmed">
+                    Email:{" "}
+                    <Anchor
+                      href={`mailto:${company.contactInfo.email}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {company.contactInfo.email}
+                    </Anchor>
+                  </Text>
+                )}
+                {company.contactInfo.linkedIn && (
+                  <Text size="sm" c="dimmed">
+                    LinkedIn:{" "}
+                    <Anchor
+                      href={company.contactInfo.linkedIn}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Profile
+                    </Anchor>
+                  </Text>
+                )}
+              </Stack>
+            </Box>
+          )}
 
           <Divider my="sm" />
 

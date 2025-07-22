@@ -1,5 +1,5 @@
 "use client";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import styles from "./loginPage.module.css";
 import { Button, Paper, PasswordInput, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -15,6 +15,7 @@ import { notifications } from "@mantine/notifications";
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -26,36 +27,48 @@ const LoginPage: React.FC = () => {
   });
 
   const handleSubmit = async () => {
-    const response = await login(form.values);
+    setLoading(true);
+    try {
+      const response = await login(form.values);
 
-    if (!response?.success || !response.data) {
-      console.error("Login failed");
+      if (!response?.success || !response.data) {
+        console.error("Login failed");
+        notifications.show({
+          title: "Login Failed",
+          message: response?.message ?? "Login failed",
+          color: "red",
+        });
+        return;
+      }
+
       notifications.show({
-        title: "Login Failed",
-        message: response?.message ?? "Login failed",
+        title: "Login Success",
+        message: "You are logged in successfully",
+        color: "green",
+      });
+
+      const { name, email } = response.data;
+
+      dispatch(
+        loginSuccess({
+          user: {
+            name,
+            email,
+          },
+        })
+      );
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Unexpected error during login:", error);
+      notifications.show({
+        title: "Login Error",
+        message: "Something went wrong. Please try again.",
         color: "red",
       });
-      return;
+    } finally {
+      setLoading(false); // Always executed
     }
-
-    notifications.show({
-      title: "Login Success",
-      message: "You are logged in successfully",
-      color: "green",
-    });
-
-    const { name, email } = response.data;
-
-    dispatch(
-      loginSuccess({
-        user: {
-          name,
-          email,
-        },
-      })
-    );
-
-    router.push("/dashboard");
   };
 
   return (
@@ -96,7 +109,7 @@ const LoginPage: React.FC = () => {
             </Link>
           </Text>
 
-          <Button w="100%" type="submit" radius="sm">
+          <Button loading={loading} w="100%" type="submit" radius="sm">
             login
           </Button>
         </form>

@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
           </p>
         </Link>
         <Link
-          href="/companies"
+          href="/applications"
           className={`${styles.section} ${styles.section2}`}
         >
           <Image
