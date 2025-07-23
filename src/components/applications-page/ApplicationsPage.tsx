@@ -1,20 +1,43 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { Box, Center, Text, Flex, Pagination, Skeleton } from "@mantine/core";
 import styles from "./applicationsPage.module.css";
 import { getAllApplicationByUserId } from "@/services/getAllApplicationByUserId";
 import { Application } from "@/types/apResponse";
-import { ApplicationStatus, applicationStatus } from "./data";
+import { applicationStatus } from "./data";
 import ApplicationCard from "../application-card/ApplicationCard";
+import { useQueryParamsState } from "@/hooks/UseQueryParams";
 
-const ApplicationsPage: React.FC = () => {
-  const [page, setPage] = useState(1);
-  const [status, setStatus] = useState<ApplicationStatus>("All");
+interface IProps {
+  defaultPage?: number;
+  defaultStatus?: string;
+}
+
+const ApplicationsPage: React.FC<IProps> = ({
+  defaultPage = 1,
+  defaultStatus = "All",
+}) => {
+  const hasMounted = useRef(false);
+  const {
+    query: { page, status },
+    setQueryParams,
+  } = useQueryParamsState({
+    page: defaultPage || 1,
+    status: defaultStatus || 1,
+  });
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return; // Skip the effect on first render
+    }
+    setQueryParams({ page: 1 });
+  }, [status]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getAllApplicationByUserId", page, status],
-    queryFn: () => getAllApplicationByUserId(page, 8, status),
+    queryFn: () => getAllApplicationByUserId(page, 4, status as string),
   });
 
   if (error instanceof Error)
@@ -33,7 +56,13 @@ const ApplicationsPage: React.FC = () => {
           Applications
         </Text>
       </Flex>
-      <Flex className={styles.filtersBar} align="center" gap={20} mt={40} mb={30}>
+      <Flex
+        className={styles.filtersBar}
+        align="center"
+        gap={20}
+        mt={40}
+        mb={30}
+      >
         {applicationStatus.map((val, index) => (
           <button
             className={`${styles.statusChip} ${
@@ -41,7 +70,7 @@ const ApplicationsPage: React.FC = () => {
             }`}
             key={index ** 2}
             onClick={() => {
-              setStatus(val as ApplicationStatus);
+              setQueryParams({ status: val });
             }}
           >
             {val}
@@ -76,7 +105,7 @@ const ApplicationsPage: React.FC = () => {
           <Pagination
             total={data?.data?.totalPage || 1}
             value={page}
-            onChange={setPage}
+            onChange={(page) => setQueryParams({ page: page })}
             radius="xl"
           />
         )}

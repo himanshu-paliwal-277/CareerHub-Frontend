@@ -1,26 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDebouncedCallback } from "@mantine/hooks";
 
 type QueryParams = Record<string, string | number | undefined>;
 
 export function useQueryParamsState<T extends QueryParams>(defaultValues: T) {
-  const [values, setValues] = useState<T>(() => {
+  const [values, setValues] = useState<T>(defaultValues);
+
+  useEffect(() => {
     const url = new URL(window.location.href);
     const initialValues = { ...defaultValues };
 
     Object.entries(defaultValues).forEach(([key, defaultVal]) => {
       const urlValue = url.searchParams.get(key);
       if (urlValue !== null) {
-        // Convert to number if default is a number
         initialValues[key as keyof T] = (
           typeof defaultVal === "number" ? parseInt(urlValue, 10) : urlValue
         ) as T[keyof T];
       }
     });
 
-    return initialValues;
-  });
+    setValues(initialValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const debouncedUpdate = useDebouncedCallback((updates: Partial<T>) => {
     const url = new URL(window.location.href);
