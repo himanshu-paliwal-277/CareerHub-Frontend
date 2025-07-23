@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCompanies } from "@/services/getAllCompanies";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import {
   Box,
   Center,
@@ -17,21 +17,70 @@ import { openCompanyModal } from "@/modals/companyModal/openCompanyModal";
 import FiltersSidebar from "../filters-sidebar/FiltersSidebar";
 import CompanyCard from "../company-card/CompanyCard";
 import { useDebouncedValue } from "@mantine/hooks";
+import { useQueryParamsState } from "@/hooks/UseQueryParams";
 
-const CompaniesPage: React.FC = () => {
-  const [page, setPage] = useState(1);
+interface IProps {
+  defaultPage?: number;
+  defaultSearch?: string;
+  defaultLocation?: string;
+  tags?: string;
+  defaultApplicationStatus?: string;
+  defaultSortBy?: string;
+  defaultSortOrder?: string;
+}
 
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [applicationStatus, setApplicationStatus] = useState<string>("all");
-  const [sortBy, setSortBy] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("desc");
+const CompaniesPage: React.FC<IProps> = ({
+  defaultPage,
+  defaultSearch,
+  defaultLocation,
+  defaultApplicationStatus,
+  defaultSortBy,
+  defaultSortOrder,
+}) => {
+  const {
+    query: {
+      page,
+      search,
+      location,
+      tags,
+      applicationStatus,
+      sortBy,
+      sortOrder,
+    },
+    setQueryParams,
+  } = useQueryParamsState({
+    page: defaultPage || 1,
+    search: defaultSearch || "",
+    location: defaultLocation || "",
+    tags: "",
+    applicationStatus: defaultApplicationStatus || "all",
+    sortBy: defaultSortBy || "createdAt",
+    sortOrder: defaultSortOrder || "desc",
+  });
+
   const [debouncedSearch] = useDebouncedValue(search, 300);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, location, tags, sortBy, sortOrder]);
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return; // Skip the effect on first render
+    }
+
+    setQueryParams({ page: 1 });
+  }, [debouncedSearch, location, tags, sortBy, sortOrder, applicationStatus]);
+
+  const handleReset = () => {
+    setQueryParams({
+      page: 1,
+      search: "",
+      location: "",
+      tags: "",
+      applicationStatus: "all",
+      sortBy: "createdAt",
+      sortOrder: "desc",
+    });
+  };
 
   const { data, isLoading, error } = useQuery({
     queryKey: [
@@ -45,14 +94,12 @@ const CompaniesPage: React.FC = () => {
       sortOrder,
     ],
     queryFn: () => {
-      const tagsString = tags.join(",");
-
       return getAllCompanies(
         page,
         6,
-        search,
+        debouncedSearch,
         location,
-        tagsString,
+        tags,
         applicationStatus,
         sortBy,
         sortOrder
@@ -90,17 +137,20 @@ const CompaniesPage: React.FC = () => {
       >
         <FiltersSidebar
           search={search}
-          setSearch={setSearch}
+          setSearch={(value) => setQueryParams({ search: value })}
           location={location}
-          setLocation={setLocation}
-          tags={tags}
-          setTags={setTags}
+          setLocation={(value) => setQueryParams({ location: value })}
+          tags={tags ? tags.split(",") : []}
+          setTags={(value) => setQueryParams({ tags: value.join(",") })}
           applicationStatus={applicationStatus}
-          setApplicationStatus={setApplicationStatus}
+          setApplicationStatus={(value) =>
+            setQueryParams({ applicationStatus: value })
+          }
           sortBy={sortBy}
-          setSortBy={setSortBy}
+          setSortBy={(value) => setQueryParams({ sortBy: value })}
           sortOrder={sortOrder}
-          setSortOrder={setSortOrder}
+          setSortOrder={(value) => setQueryParams({ sortOrder: value })}
+          handleReset={handleReset}
         />
 
         <Box w={"100%"}>
@@ -136,8 +186,9 @@ const CompaniesPage: React.FC = () => {
           <Flex justify="flex-end" mt={40}>
             {data?.data?.totalPage > 1 && (
               <Pagination
-                value={page}
-                onChange={setPage}
+                key={page}
+                value={Number(page)}
+                onChange={(page) => setQueryParams({ page: page })}
                 total={data?.data?.totalPage || 1}
                 radius="xl"
               />

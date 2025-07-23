@@ -27,6 +27,7 @@ interface IProps {
   setSortBy: (value: string) => void;
   sortOrder: string;
   setSortOrder: (value: string) => void;
+  handleReset: () => void;
 }
 
 const FiltersSidebar: React.FC<IProps> = ({
@@ -42,15 +43,17 @@ const FiltersSidebar: React.FC<IProps> = ({
   setSortBy,
   sortOrder,
   setSortOrder,
+  handleReset,
 }) => {
-  const handleReset = () => {
-    setSearch("");
-    setLocation("");
-    setTags([]);
-    setApplicationStatus("All");
-    setSortBy("createdAt");
-    setSortOrder("desc");
-  };
+  // const handleReset = () => {
+  //   setSearch("");
+  //   setLocation("");
+  //   setTags([]);
+  //   setApplicationStatus("all");
+  //   setSortBy("createdAt");
+  //   setSortOrder("desc");
+  //   alert("reset");
+  // };
 
   return (
     <Card
