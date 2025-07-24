@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.innerContainer {
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}

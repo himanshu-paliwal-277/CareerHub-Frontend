@@ -74,9 +74,9 @@ const Header: React.FC = () => {
           {!mobile && (
             <Group gap={20}>
               <Link
-                href="/dashboard"
+                href="/"
                 className={`${styles.link} ${
-                  pathname === "/dashboard" ? styles.activeLink : ""
+                  pathname === "/" ? styles.activeLink : ""
                 }`}
               >
                 Home
@@ -96,6 +96,14 @@ const Header: React.FC = () => {
                 }`}
               >
                 Applications
+              </Link>
+              <Link
+                href="/dashboard"
+                className={`${styles.link} ${
+                  pathname === "/dashboard" ? styles.activeLink : ""
+                }`}
+              >
+                Dashboard
               </Link>
             </Group>
           )}
@@ -160,9 +168,9 @@ const Header: React.FC = () => {
 
           <Flex direction={"column"} align="center" my={20} gap={10}>
             <Link
-              href="/dashboard"
+              href="/"
               className={`${styles.link} ${
-                pathname === "/dashboard" ? styles.activeLink : ""
+                pathname === "/" ? styles.activeLink : ""
               }`}
               onClick={close}
             >
@@ -185,6 +193,14 @@ const Header: React.FC = () => {
               onClick={close}
             >
               Applications
+            </Link>
+            <Link
+              href="/dashboard"
+              className={`${styles.link} ${
+                pathname === "/dashboard" ? styles.activeLink : ""
+              }`}
+            >
+              Dashboard
             </Link>
           </Flex>
 

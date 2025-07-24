@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  overflow-x: auto;
+
+  @media (max-width: 800px) {
+    justify-content: flex-start;
+  }
+}
+
+.button {
+  padding: 4px 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
+}
+
+.activeYear {
+  color: white;
+  background-color: #1f6feb;
+}
+
+.yearSelector {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.heatMapContainer {
+  margin: auto;
+  border: 1px solid gray;
+  padding: 20px;
+  border-radius: 5px;
+
+  @media (max-width: 800px) {
+    margin: 0px;
+  }
+}

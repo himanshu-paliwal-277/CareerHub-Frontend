@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
         })
       );
 
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       console.error("Unexpected error during login:", error);
       notifications.show({
