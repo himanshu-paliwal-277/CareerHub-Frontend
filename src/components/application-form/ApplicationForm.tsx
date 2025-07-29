@@ -69,6 +69,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
           <DateInput
             label="Application Date"
             placeholder="Application Date"
+            maxDate={new Date()} // disables future dates
             {...form.getInputProps("applicationDate")}
           />
           <Textarea

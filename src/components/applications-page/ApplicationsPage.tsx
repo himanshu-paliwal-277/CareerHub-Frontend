@@ -37,7 +37,7 @@ const ApplicationsPage: React.FC<IProps> = ({
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["getAllApplicationByUserId", page, status],
-    queryFn: () => getAllApplicationByUserId(page, 6, status as string),
+    queryFn: () => getAllApplicationByUserId(page, 8, status as string),
   });
 
   if (error instanceof Error)
