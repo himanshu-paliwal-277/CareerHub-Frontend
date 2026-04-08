@@ -2,9 +2,6 @@ version: "3.9"
 
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: himanshu277/careerhub-frontend
     container_name: careerhub-frontend
     restart: unless-stopped
